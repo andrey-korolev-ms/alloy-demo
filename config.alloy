@@ -1,0 +1,13 @@
+prometheus.scrape "go_app" {
+  targets = [{
+    "__address__" = "host.docker.internal:8080", // Go-приложение на хосте
+  }]
+  scrape_interval = "5s"
+  forward_to      = [prometheus.remote_write.prom.receiver]
+}
+
+prometheus.remote_write "prom" {
+  endpoint {
+    url = "http://prometheus:9090/api/v1/write"
+  }
+}
