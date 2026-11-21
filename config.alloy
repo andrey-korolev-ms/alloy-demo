@@ -3,6 +3,7 @@ prometheus.scrape "go_app" {
     "__address__" = "host.docker.internal:8080", // Go-приложение на хосте
   }]
   scrape_interval = "5s"
+  scrape_timeout  = "4s"
   forward_to      = [prometheus.remote_write.prom.receiver]
 }
 
