@@ -123,3 +123,14 @@ docker compose down
 ![Grafana](docs/grafana.png)
 ![Alloy Graph](docs/alloy-graph.png)
 -->
+## СХЕМА C4 context
+
+```mermaid
+C4Context
+  title Контекст — Observability Demo
+  Person(dev, "Разработчик", "Смотрит графики, дебажит сервис")
+  System(obs, "Observability-стенд", "Сбор, хранение, визуализация метрик")
+  System_Ext(api, "Go-сервис demo", "Бизнес-логика /hello, отдаёт /metrics")
+  Rel(dev, obs, "Смотрит дашборды", "HTTP :3000")
+  Rel(obs, api, "Скрейпит метрики", "HTTP /metrics, 5с")
+```
