@@ -9,20 +9,25 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 var requests = promauto.NewCounterVec(prometheus.CounterOpts{
-	Name: "demo_request_total",
+	Name: "demo_requests_total",
 	Help: "Total /hello requests",
 }, []string{"path"})
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Println("Ошибка .env")
+	}
+
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "8081"
 	}
 
 	mux := http.NewServeMux()

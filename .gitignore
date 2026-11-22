@@ -1,2 +1,3 @@
-demo        # бинарник, если сделаешь go build
+demo
+alloy-demo# бинарник, если сделаешь go build
 .env        # на будущее: токены Grafana Cloud и прочее — только сюда, не в код

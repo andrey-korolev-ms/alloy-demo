@@ -1,7 +1,10 @@
 services:
   prometheus:
     image: prom/prometheus
-    command: ["--web.enable-remote-write-receiver"] # включает приём на /api/v1/write
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.enable-remote-write-receiver"
     ports: ["9090:9090"]
 
   alloy:
