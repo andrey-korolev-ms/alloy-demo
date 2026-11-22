@@ -19,6 +19,11 @@ var requests = promauto.NewCounterVec(prometheus.CounterOpts{
 	Name: "demo_requests_total",
 	Help: "Total /hello requests",
 }, []string{"path"})
+var requestDuration = promauto.NewHistogramVec(prometheus.HistogramOpts{
+	Name:    "demo_requests_duration_seconds",
+	Help:    "Latency of /hello",
+	Buckets: prometheus.DefBuckets,
+}, []string{"path"})
 
 func main() {
 	if err := godotenv.Load(); err != nil {
@@ -32,8 +37,10 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
 		requests.WithLabelValues("/hello").Inc()
 		w.Write([]byte("hello"))
+		requestDuration.WithLabelValues("/hello").Observe(time.Since(start).Seconds())
 	})
 	mux.Handle("/metrics", promhttp.Handler())
 
